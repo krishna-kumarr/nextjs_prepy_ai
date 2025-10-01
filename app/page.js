@@ -1,95 +1,71 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Box, Button, CardContent, Divider, IconButton, Stack, Typography } from "@mui/material";
+
+import jsx_json from "~/json/json_data";
+import input_function from "~/json/input_function";
+import { AuthLayoutBasic } from "~/components/Layouts/authLayoutBasic";
+import { icons } from "~/public/icons";
+import { encryptEndpointAndRedirect } from "~/utils/crypto";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [auth_credentials, setAuthCredentials] = useState({});
+  const [errors, setErrors] = useState({});
+  const router = useRouter();
+  const { auth_json } = jsx_json({ state: auth_credentials, setState, errors, setErrors });
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  function setState(field, value) {
+    if (errors[field]) {
+      const newErrors = { ...errors };
+      delete newErrors[field];
+      setErrors(newErrors);
+    }
+    setAuthCredentials(prev => ({ ...prev, [field]: value }));
+  }
+
+  async function login() {
+    const new_errors = {};
+    if (!auth_credentials.username) new_errors.username = "Username is required";
+    if (!auth_credentials.password) new_errors.password = "Password is required";
+
+    if (Object.keys(new_errors).length) {
+      setErrors(new_errors);
+      return;
+    }
+  }
+
+  return (
+    <AuthLayoutBasic>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h5" sx={{ color: "rgb(52, 71, 103)", fontWeight: 600, fontSize: "1.25rem", mb: 3 }}>
+            Sign in
+          </Typography>
+
+          <Stack direction="row" spacing={2} justifyContent="center" mb={4}>
+            <IconButton
+              aria-label="Google"
+              sx={{ border: 1, borderColor: 'rgb(210, 214, 218)', borderRadius: 1, px: 2 }}
+              onClick={() => encryptEndpointAndRedirect("auth/google/signin")}
+            >
+              {icons.google_icons}
+            </IconButton>
+          </Stack>
+        </Box>
+
+        <Box sx={{ px: 3, py: 1 }}>
+          {input_function(auth_json.jsx.login)}
+
+          <Stack direction="column" spacing={2} justifyContent="center" mt={4}>
+            <Button variant="sign_in_button" onClick={login}>Sign in</Button>
+
+            <Divider sx={{ fontSize: '0.7rem' }}>Or</Divider>
+
+            <Button variant="sign_up_button" onClick={() => router.push('signup')}>Sign up</Button>
+          </Stack>
+        </Box>
+      </CardContent>
+    </AuthLayoutBasic>
   );
 }
