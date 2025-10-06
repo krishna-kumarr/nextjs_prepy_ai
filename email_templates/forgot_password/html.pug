@@ -1,0 +1,15 @@
+head
+  style
+    include ../includes/styles.css
+body
+  div(style={'max-width':'540px'})
+    p Dear #{to}
+    p Someone has requested to change your password on #{app_name}.
+    p If this was not you, don't worry. Your account is still active and your password has not changed.
+    p If this was you, then use the link below to reset your password and log in.
+    p(style={'margin-top':'24px'} align="center")
+      a(href=url,target="_blank",style={'font-size':'1em','text-decoration':'none','font-weight':700,background:'darkblue',padding:'12px 24px',color:'white','border-radius':'10px'}) Reset Password
+    p(style={'margin-top':'24px'}) This link will expire in #{expiry_time} hours. If it has expired you can request a new invitation 
+      a(href=forgot_password_link) here
+    p(style={'margin-top':32}) Kind regards
+    p(style={'margin-top':32}) The #{app_name} Team

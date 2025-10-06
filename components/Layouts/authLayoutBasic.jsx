@@ -1,3 +1,5 @@
+"use client";
+
 import { image } from "~/public/image";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { usePathname } from "next/navigation";

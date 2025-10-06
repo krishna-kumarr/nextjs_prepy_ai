@@ -1,0 +1,12 @@
+.privacy {
+   color: darkgray;
+  }
+
+.button {
+  padding: 0.75em 1.25em;
+  font-size: 1.25em;
+  background: darkblue;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.5em;
+}

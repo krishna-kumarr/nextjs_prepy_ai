@@ -1,0 +1,11 @@
+head
+  style
+    include ../includes/styles.css
+body
+  div(style={'max-width':'540px'})
+    p Dear #{to}
+    p Your password on #{app_name} has been updated.
+    p If you made the change, no further action is required.
+    p If you did not make the change, notify us immediately by send an email to #{security_support_email}.
+    p(style={'margin-top':32}) Kind regards
+    p(style={'margin-top':32}) The #{app_name} Team

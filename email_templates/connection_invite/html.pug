@@ -1,0 +1,27 @@
+head
+  style
+    include ../includes/styles.css
+body
+  div(style={'max-width':'540px'})
+    p Dear #{to}
+    p #{from} from #{company_name} wants to connect with your company on #{app_name}.
+    if message
+      p #{message}.
+    p
+      span Ripple can be used 
+      span(style={'font-weight':'bold','text-decoration':'underline'}) free of charge
+      span . It is designed to promote and support companies with sustainable ambitions. Using Ripple could help your business grow, reduce costs and get access to cheaper finance.
+    p Ripple enables all companies to securely collect and share sustainability data with business partners, regulators and investors, whilst giving them control of their data.
+    p The process to connect with #{company_name} is simple -
+      ol
+        li Click the link below to register your business
+        li Complete the set-up information
+        li Accept the invitation from #{from}
+        li Use Ripple to grow your business
+    p You will be asked to confirm the invitation using the following two-digit authorisation code
+    p(style={'margin-top':'24px','font-size':'3em','font-weight':700,color:'darkgreen'} align="center") #{invite_code}
+    p(style={'margin-top':'24px'}) This invitation will expire in #{expiry_time} days. If it has expired you can request a new invitation from #{from}.
+    p(style={'margin-top':'24px'} align="center")
+      a.button(href=register_url) Connect
+    p(style={'margin-top':32}) Kind regards
+    p(style={'margin-top':32}) #{app_name} Team

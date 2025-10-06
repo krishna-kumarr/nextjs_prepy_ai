@@ -1,0 +1,12 @@
+head
+  style
+    include ../includes/styles.css
+body
+  div
+    p Dear #{first_name}
+    p You have been invited to join #{app_name}.
+    p Click the link below to complete your registration or go to #{action_url} and input the code #{invite_code}
+    p
+      a.button(href=register_url) Register
+    p Kind regards
+    p The #{app_name} welcome team

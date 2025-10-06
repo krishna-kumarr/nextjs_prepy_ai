@@ -1,3 +1,5 @@
+"use client";
+
 import { ThemeProvider } from "@mui/material/styles";
 import "~/stylesheet/css/globals.css"
 import theme from "~/theme";

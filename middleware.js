@@ -13,16 +13,14 @@ export async function middleware(req) {
   }
 
   const url = req.nextUrl;
-  if (!url.pathname.startsWith("/secure") && !url.pathname.startsWith("/api") || url.pathname.startsWith("/api/auth/google/callback")) {
-    return NextResponse.next();
-  }
+  if (url.pathname.startsWith("/api/auth/google/callback")) return NextResponse.next()
+  if (!url.pathname.startsWith("/api")) return NextResponse.next();
 
-  // Capture prefix (secure or api)
-  const prefixMatch = url.pathname.match(/^\/(secure|api)\//);
-  const prefix = prefixMatch ? `/${prefixMatch[1]}` : "";
+  // Capture prefix (api)
+  const prefix = "api";
 
   // Remove prefix from path
-  const pathWithoutPrefix = url.pathname.replace(/^\/(secure|api)\//, "");
+  const pathWithoutPrefix = url.pathname.replace(/^\/(api)\//, "");
 
   // Extract encrypted + trailing
   const parsed = extractEncAndTrailing(pathWithoutPrefix, "enc");
@@ -32,7 +30,7 @@ export async function middleware(req) {
   const decrypted = await decryptData(parsed.encrypted);
   if (decrypted?.url) {
     if (new Date(decrypted.expires_in) < new Date()) {
-      return NextResponse.json({ error: "Endpoint expired" }, { status: 200 });
+      return NextResponse.json({ error: "Access denied" }, { status: 200 });
     }
 
     const newUrl = req.nextUrl.clone();

@@ -31,6 +31,7 @@ const nextConfig = {
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },
+    devIndicators: false,
     // env: {
     // ENV: process.env.ENV,
     // APP_NAME: process.env.APP_NAME,
