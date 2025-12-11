@@ -71,13 +71,13 @@ export async function GET() {
             provider: cluster.providerSettings?.providerName || null,
             instanceSize: cluster.providerSettings?.instanceSizeName || null,
             paused: cluster.paused || false,
-            // tags: cluster.tags || [],
-            // withDefaultAlertsSettings: cluster.withDefaultAlertsSettings || false,
-            // links: cluster.links || [],
+            tags: cluster.tags || [],
+            withDefaultAlertsSettings: cluster.withDefaultAlertsSettings || false,
+            links: cluster.links || [],
             totalAllocatedMB,
             totalUsedMB,
             remainingMB,
-            // databases: dbStatsArr
+            databases: dbStatsArr
         }
 
         return new Response(JSON.stringify(response), {
